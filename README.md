@@ -1,2 +1,2 @@
 # css_grid_ui_layout
-Basic Steps to Create CSS Grid Layout
+8 Basic Steps to Create CSS Grid Layout
