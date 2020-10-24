@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Layout with CSS Grid </title>
+
+     <style>
+         *,*:before,*:after{
+             -moz-box-sizing: border-box;
+             -webkit-box-sizing: border-box;
+             box-sizing: border-box;
+             padding: 0;
+             margin: 0;
+         }
+
+       html{
+           height: 100%;
+       }
+
+       body{
+           margin: 0;
+           padding: 0;
+           width: 100%;
+           height: 100%;
+           font-size: 100%;
+           line-height: 1.5;
+           overflow: hidden;
+           font-family: sans-serif, Serif, Roboto, “Segoe UI”,
+                       BlinkMacSystemFont, -apple-system, Helvetica;
+       }
+
+       .layout-grid,[data-layout-grid]{
+           display: grid;
+           grid-template-columns: 300px 1fr;
+           grid-template-rows: 3.5rem 1fr 3.5rem;
+       }
+       header,footer,aside,main{
+           display: flex;
+           padding: 0 1rem;
+       }
+
+       header,footer,aside {
+             align-items: center;
+             justify-items: center;
+             vertical-align: center;
+             justify-content: flex-start;
+
+       }
+
+       header{
+           grid-column: 1/span 2;
+           grid-row: 1;
+       }
+
+       aside{
+           grid-column: 1;
+           grid-row: 1/span 3;
+           z-index: 20;
+           position: relative;
+           left: -300px;
+           visibility: hidden;
+           background-color: #f6f6f6;
+       }
+
+       main{
+           grid-column: 1/span 2;
+           grid-row: 2;
+           margin-top: 2%;
+
+       }
+       footer{
+           grid-column: 1/span 2;
+           grid-row: 3 ;
+       }
+
+       .aside-open-button{
+           display: flex;
+           flex-direction: column;
+           width: 3rem;
+           height: 3rem;
+           justify-content: center;
+           align-items: center;
+           vertical-align: center;
+           background-color: #020202;
+
+       }
+       .aside-open-button span{
+           display: block;
+           height: 2px;
+           width:  50%;
+           margin-bottom: 2px;
+           background-color: #ffffff;
+       }
+
+       .aside-hide-button{
+           display: flex;
+           flex-direction: column;
+           width: 1.5rem;
+           height: 1.5rem;
+           justify-content: center;
+           align-items: center;
+           vertical-align: center;
+           position: absolute;
+           top: 0.5rem;
+           right: 0.5rem;
+
+           background-color: #cccccc;
+           text-decoration: none;
+           color: currentColor;
+       }
+
+       aside[aria-expanded=false]{
+
+           left: -300px;
+           visibility: visible;
+           -moz-transition: left 2s ;
+           -webkit-transition: left 2s ;
+           transition: left 2s ;
+       }
+
+       aside[aria-expanded=true]{
+
+           left:0;
+           visibility: visible;
+           opacity: 1;
+           -moz-transition: left 2s ;
+           -webkit-transition: left 2s ;
+           transition: left 2s ;
+           z-index:10 ;
+       }
+
+       header .aside-open-button{
+           margin-right: 1rem;
+       }
+
+       header h1{
+           font-size: 1.25rem;
+       }
+
+         .shadow {
+             -webkit-box-shadow: 0 1px 5px rgba(0,0,0,.17) ;
+             -moz-box-shadow: 0 1px 5px rgba(0,0,0,.17) ;
+             box-shadow: 0 1px 5px 	rgba(0,0,0,.17) ;
+         }
+
+       @media screen and (min-width: 1023px) {
+
+           aside[aria-expanded]{
+               left: revert;
+               visibility: visible;
+               -moz-transition: none ;
+               -webkit-transition: none ;
+               transition: none;
+           }
+           main{
+               grid-column: 2;
+               grid-row: 2;
+           }
+
+           aside{
+               grid-column: 1;
+               grid-row: 2;
+               background-color: #f6f6f6;
+               padding: 1rem;
+           }
+           .aside-open-button,.aside-hide-button{
+               display: none;
+           }
+       }
+
+     </style>
+
+</head>
+<body data-layout-grid>
+    <header class="shadow">
+        <a id="cmd-test" href="#" class="aside-open-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </a>
+        <h1>Layout With CSS Grid</h1>
+    </header>
+    <aside aria-expanded="false">
+        <a class="aside-hide-button" href="#">X</a>
+        Aside
+    </aside>
+    <main>Main</main>
+    <footer class="shadow">
+
+    </footer>
+
+    <script>
+        (function toggleAside(){
+            function show(e){
+                e.preventDefault();
+                const ele=document.querySelectorAll("aside[aria-expanded=false]")[0];
+                ele.setAttribute('aria-expanded','true');
+
+            }
+
+            function hide(e){
+                e.preventDefault();
+                const ele=document.querySelectorAll('aside[aria-expanded=true]')[0];
+                ele.setAttribute('aria-expanded','false');
+            }
+
+            const hideButton=document.getElementsByClassName("aside-hide-button")[0];
+            hideButton.addEventListener('click',hide);
+
+            const openButton=document.getElementsByClassName("aside-open-button")[0];
+            openButton.addEventListener('click',show);
+        }());
+    </script>
+</body>
+</html>
+
